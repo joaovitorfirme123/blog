@@ -1,29 +1,22 @@
 
-CREATE TABLE roles  (
-id INT PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(50) NOT NULL UNIQUE
-);
-INSERT INTO roles (nome) VALUES ('user'),('admin');
-CREATE TABLE users (
-id INT PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(100) NOT NULL,
-email VARCHAR(100) NOT NULL UNIQUE,
-senha VARCHAR(255) NOT NULL, 
-registro_data DATETIME DEFAULT CURRENT_TIMESTAMP,
-role_id INT,
-FOREIGN KEY (role_id) REFERENCES roles(id)
+CREATE TABLE usuario (
+id int NOT NULL AUTO_INCREMENT, 
+nome varchar(50) NOT NULL, 
+email varchar(255) NOT NULL,
+senha varchar(60) NOT NULL,
+data_criacao datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ativo tinyint NOT NULL DEFAULT '0',
+adm tinyint Not NULL DEFAULT '0',
+PRIMARY KEY (id)
 );
 CREATE TABLE post (
-id INT PRIMARY KEY AUTO_INCREMENT,
-title VARCHAR(255) NOT NULL,
-text TEXT NOT NULL,
-post_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-author_id INT,
-FOREIGN KEY (author_id) REFERENCES users(id)
-);
-CREATE TABLE access_control (
-id INT PRIMARY KEY AUTO_INCREMENT,
-user_id INT,
-access_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (user_id) REFERENCES users(id)
+id int NOT NULL AUTO_INCREMENT,
+titulo varchar(255) NOT NULL, 
+texto text NOT NULL,
+usuario_id int NOT NULL,
+data_criacao datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+data_postagem datetime NOT NULL,
+PRIMARY KEY (id),
+KEY fk_post_usuario_idx (usuario_id),
+CONSTRAINT fk_post_usuario FOREIGN KEY (usuario_id) REFERENCES usuario (id)
 );
