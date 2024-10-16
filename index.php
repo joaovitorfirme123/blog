@@ -30,6 +30,8 @@
                 ?>
 
                 <?php
+                    #Pega o horario atual de acordo com o fuso
+                    date_default_timezone_set('America/Sao_Paulo');
                     require_once 'includes/funcoes.php';
                     require_once 'core/conexao_mysql.php';
                     require_once 'core/sql.php';
@@ -40,13 +42,16 @@
                         $$indice = limparDados($dado);
                     }
 
+                    //Pega a data atual
                     $data_atual = date('Y-m-d H:i:s');
-
+                    //Primeiro criterio para puxar o post na data correta
                     $criterio = [
                         ['data_postagem', '<=', $data_atual]
                     ];
-
-                    if(!empty($busca)) {
+                    
+                    //Segundo criterio para puxar o post do tipo e titulo correto
+                    if(!empty($busca)) 
+                    {
                         $criterio[] = [
                             'AND',
                             'titulo',
@@ -54,28 +59,21 @@
                             "%{$busca}%"
                         ];
                     }
-
-                    $posts = buscar(
-                        'post',
-                        [
-                            'titulo',
-                            'data_postagem',
-                            'id',
-                            ' (select nome 
-                                from usuario
-                                where usuario.id = post.usuario_id) as nome'
-                        ],
-                        $criterio,
-                        'data_postagem DESC'
-                    );
+                    ////////
+                    //funcao 'Buscar()'
+                    $posts = buscar ('post', ['titulo', 'data_postagem', 'id', 
+                    ' (select nome from usuario where usuario.id = post.usuario_id) as nome'], $criterio,
+                    'data_postagem DESC');
                 ?>
 
                 <div>
                     <div class="list-group">
                         <?php
-                        foreach($posts as $post):
-                            $data = date_create($post['data_postagem']);
-                            $data = date_format($data, 'd/m/Y H:i:s');
+                            //MOSTRA OS POSTS DISPONIVEIS
+                            #Puxa a data e horario e os formata 
+                            foreach($posts as $post):
+                                $data = date_create($post['data_postagem']);
+                                $data = date_format($data, 'd/m/Y H:i:s');
                         ?>
                         <a class="list-group-item list-group-item-action"
                             href="post_detalhe.php?post=<?php echo $post['id']?>">

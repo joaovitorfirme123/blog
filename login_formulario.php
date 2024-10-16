@@ -19,6 +19,7 @@
                 <div class="col-md-10" style="padding-top: 50px;">
                     <div class="card-header">Login</div>
                     <div class="card-body">
+                        <!-- Formulario de login -->
                         <form method="post" action="core/usuario_repositorio.php">
                             <input type="hidden" name="acao" value="login">
                             <div class="form-group">
@@ -31,6 +32,7 @@
                                 <input class="form-control" type="password"
                                     require="required" id="senha" name="senha">
                             </div>
+                            <!-- Botao submit -->
                             <div class="text-right">
                                 <button class="btn btn-sucess"
                                     type="submit">Acessar</button>
